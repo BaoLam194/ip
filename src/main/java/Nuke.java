@@ -1,5 +1,9 @@
 import main.java.Command;
+import main.java.Deadline;
+import main.java.Event;
+import main.java.Todo;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Nuke {
@@ -25,6 +29,10 @@ public class Nuke {
         System.out.println("\t-------------------------------");
     }
 
+    private static void addCommand(Command c) {
+        commands[numCommand++] = c;
+    }
+
     private static boolean receiveCommand(String command) {
 
         if (command.equals("bye")) { // Handle bye directly
@@ -38,58 +46,127 @@ public class Nuke {
     }
 
     private static void handleCommand(String commandLine) {
-        String[] parsedComment = commandLine.split(" ");
-        if (parsedComment[0].equals("list")) {// list command
+        String[] parsedCommand = commandLine.split(" ");
+        String command = parsedCommand[0];
+        switch (command) {
+        case "list" -> {
             executeList();
             return;
         }
-        if (parsedComment[0].equals("mark")) { //mark and unmark command
-            executeMark(parsedComment[1]);
+        case "mark", "unmark" -> {
+            if (parsedCommand.length != 2) { // some explicit format handling
+                System.out.println("Your command format is wrong. Try again!");
+                return;
+            }
+            if (command.equals("mark")) {
+                executeMark(parsedCommand[1]);
+            } else {
+                executeUnmark(parsedCommand[1]);
+            }
             return;
         }
-        if (parsedComment[0].equals("unmark")) { //mark and unmark command
-            executeUnmark(parsedComment[1]);
+        case "todo" -> { // to do command
+            String description = String.join(" ", Arrays.copyOfRange(parsedCommand, 1, parsedCommand.length));
+            executeTodo(description);
             return;
         }
-        commands[numCommand++] = new Command(commandLine);
+        case "deadline" -> { // deadline command
+            int byIndex = -1;
+            // Find "/by" keyword to create new Command
+            for (int i = 1; i < parsedCommand.length; i++) {
+                if (parsedCommand[i].equals("/by")) {
+                    byIndex = i;
+                    break;
+                }
+            }
+            if (byIndex == -1) {
+                System.out.println("Your command format is wrong. Try again!");
+                return;
+            }
+            String description = String.join(" ", Arrays.copyOfRange(parsedCommand, 1, byIndex));
+            String by = String.join(" ", Arrays.copyOfRange(parsedCommand, byIndex + 1, parsedCommand.length));
+            executeDeadline(description, by);
+            return;
+        }
+        case "event" -> { // deadline command
+            int fromIndex = -1;
+            int toIndex = -1;
+            // Find "/from" and "/to" keyword to create new Command
+            for (int i = 1; i < parsedCommand.length; i++) {
+                if (parsedCommand[i].equals("/from")) {
+                    fromIndex = i;
+                    break;
+                }
+            }
+            for (int i = 1; i < parsedCommand.length; i++) {
+                if (parsedCommand[i].equals("/to")) {
+                    toIndex = i;
+                    break;
+                }
+            }
+            if (fromIndex == -1 || toIndex == -1 || toIndex < fromIndex) {
+                System.out.println("Your command format is wrong. Try again!");
+                return;
+            }
+            String description = String.join(" ", Arrays.copyOfRange(parsedCommand, 1, fromIndex));
+            String from = String.join(" ", Arrays.copyOfRange(parsedCommand, fromIndex + 1, toIndex));
+            String to = String.join(" ", Arrays.copyOfRange(parsedCommand, toIndex + 1, parsedCommand.length));
+            executeEvent(description, from, to);
+            return;
+        }
+        }
+        addCommand(new Command(commandLine));
         System.out.printf("\tReceive command: %s%n", commandLine);
     }
 
-    private static void executeList(){
+    // Command implementation
+    private static void executeList() {
         for (int i = 0; i < numCommand; i++) {
             System.out.printf("%d.%s%n", i + 1, commands[i].toString());
         }
-        return;
     }
 
-    private static void executeMark(String commandIndex){
+    private static void executeMark(String commandIndex) {
         try {
             int index = Integer.parseInt(commandIndex);
-            if(index > numCommand){
+            if (index > numCommand) {
                 System.out.println("\tYou mark the out-of-bound command");
                 return;
             }
             commands[index - 1].setDone();
-            System.out.printf("\tMark the command: %s%n", commands[index - 1].getName());
+            System.out.printf("\tMark the command: %s%n", commands[index - 1].getDescription());
         } catch (Exception e) {
             System.out.println("\tYour command is wrong, please try again!");
         }
-        return;
     }
 
-    private static void executeUnmark(String commandIndex){
+    private static void executeUnmark(String commandIndex) {
         try {
             int index = Integer.parseInt(commandIndex);
-            if(index > numCommand){
+            if (index > numCommand) {
                 System.out.println("\tYou mark the out-of-bound command");
                 return;
             }
             commands[index - 1].setUndone();
-            System.out.printf("\tUnmark the command: %s%n", commands[index - 1].getName());
+            System.out.printf("\tUnmark the command: %s%n", commands[index - 1].getDescription());
         } catch (Exception e) {
             System.out.println("\tYour command is wrong, please try again!");
         }
-        return;
+    }
+
+    private static void executeTodo(String description) {
+        addCommand(new Todo(description));
+        System.out.println("\tReceive a command");
+    }
+
+    private static void executeDeadline(String description, String by) {
+        addCommand(new Deadline(description, by));
+        System.out.println("\tReceive a strike order by " + by);
+    }
+
+    private static void executeEvent(String description, String from, String to) {
+        addCommand(new Event(description, from, to));
+        System.out.println("\tReceive an operation from " +from +"to "+to);
     }
 
     public static void main(String[] args) {

@@ -2,15 +2,15 @@ package main.java;
 
 public class Command {
     private boolean isDone;
-    private String name;
+    private String description;
     // Constructor
-    public Command( String name) {
+    public Command( String description) {
         this.isDone = false;
-        this.name = name;
+        this.description = description;
     }
     // Getter and Setter
-    public String getName() {
-        return name;
+    public String getDescription() {
+        return description;
     }
     public void setDone() {
         this.isDone = true;
@@ -21,7 +21,7 @@ public class Command {
     //Convert into format : [ ] command
     public String toString(){
         String res ="";
-        res = ((this.isDone) ? "[X]" : "[ ]") + " " + name;
+        res = ((this.isDone) ? "[X]" : "[ ]") + " " + description;
         return res;
     }
 }
