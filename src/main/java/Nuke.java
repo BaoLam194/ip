@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Nuke {
     private static Command[] commands = new Command[100];
-    private static int numOfCommand = 0;
+    private static int numCommand = 0;
 
     private static void announce(String mode) {
         if (mode.equals("greet")) {
@@ -40,29 +40,56 @@ public class Nuke {
     private static void handleCommand(String commandLine) {
         String[] parsedComment = commandLine.split(" ");
         if (parsedComment[0].equals("list")) {// list command
-            for (int i = 0; i < numOfCommand; i++) {
-                System.out.printf("%d.%s%n", i + 1, commands[i].toString());
-            }
+            executeList();
             return;
         }
-        if (parsedComment[0].equals("mark") || parsedComment[0].equals("unmark")) { //mark and unmark command
-            try {
-                int chosenCommand = Integer.parseInt(parsedComment[1]);
-                if (parsedComment[0].equals("mark")) {
-                    commands[chosenCommand - 1].setDone();
-                    System.out.printf("\tMark the command: %s%n", commands[chosenCommand - 1].getName());
-                } else {
-                    commands[chosenCommand - 1].setUndone();
-                    System.out.printf("\tUnmark the command: %s%n", commands[chosenCommand - 1].getName());
-                }
-
-            } catch (Exception e) {
-                System.out.println("\tYour command is wrong, please try again!");
-            }
+        if (parsedComment[0].equals("mark")) { //mark and unmark command
+            executeMark(parsedComment[1]);
             return;
         }
-        commands[numOfCommand++] = new Command(commandLine);
+        if (parsedComment[0].equals("unmark")) { //mark and unmark command
+            executeUnmark(parsedComment[1]);
+            return;
+        }
+        commands[numCommand++] = new Command(commandLine);
         System.out.printf("\tReceive command: %s%n", commandLine);
+    }
+
+    private static void executeList(){
+        for (int i = 0; i < numCommand; i++) {
+            System.out.printf("%d.%s%n", i + 1, commands[i].toString());
+        }
+        return;
+    }
+
+    private static void executeMark(String commandIndex){
+        try {
+            int index = Integer.parseInt(commandIndex);
+            if(index > numCommand){
+                System.out.println("\tYou mark the out-of-bound command");
+                return;
+            }
+            commands[index - 1].setDone();
+            System.out.printf("\tMark the command: %s%n", commands[index - 1].getName());
+        } catch (Exception e) {
+            System.out.println("\tYour command is wrong, please try again!");
+        }
+        return;
+    }
+
+    private static void executeUnmark(String commandIndex){
+        try {
+            int index = Integer.parseInt(commandIndex);
+            if(index > numCommand){
+                System.out.println("\tYou mark the out-of-bound command");
+                return;
+            }
+            commands[index - 1].setUndone();
+            System.out.printf("\tUnmark the command: %s%n", commands[index - 1].getName());
+        } catch (Exception e) {
+            System.out.println("\tYour command is wrong, please try again!");
+        }
+        return;
     }
 
     public static void main(String[] args) {
