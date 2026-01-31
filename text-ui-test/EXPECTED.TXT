@@ -1,7 +1,52 @@
-Hello from
- ____        _        
-|  _ \ _   _| | _____ 
-| | | | | | | |/ / _ \
-| |_| | |_| |   <  __/
-|____/ \__,_|_|\_\___|
-
+	===============================
+	Hi! Nuke's waiting for your command!
+	Who do you want me to nuke today?
+	-------------------------------
+	-------------------------------
+	Receive a pending command: test1
+	-------------------------------
+	-------------------------------
+1.[T][ ] test1
+	-------------------------------
+	-------------------------------
+	Receive a pending command: test2
+	-------------------------------
+	-------------------------------
+	Receive a strike order: make something weird by idk
+	-------------------------------
+	-------------------------------
+	Receive an operation doing that thing from start to end
+	-------------------------------
+	-------------------------------
+	Mark the command: test1
+	-------------------------------
+	-------------------------------
+	Mark the command: doing that thing
+	-------------------------------
+	-------------------------------
+	Receive a strike order: doing deadline :) by deadline :)
+	-------------------------------
+	-------------------------------
+1.[T][X] test1
+2.[T][ ] test2
+3.[D][ ] make something weird (by: idk)
+4.[E][X] doing that thing (from: start to: end)
+5.[D][ ] doing deadline :) (by: deadline :))
+	-------------------------------
+	-------------------------------
+	Mark the command: make something weird
+	-------------------------------
+	-------------------------------
+	Unmark the command: test1
+	-------------------------------
+	-------------------------------
+	Receive command: doing something that is not a command
+	-------------------------------
+	-------------------------------
+1.[T][ ] test1
+2.[T][ ] test2
+3.[D][X] make something weird (by: idk)
+4.[E][X] doing that thing (from: start to: end)
+5.[D][ ] doing deadline :) (by: deadline :))
+6.[ ] doing something that is not a command
+	-------------------------------

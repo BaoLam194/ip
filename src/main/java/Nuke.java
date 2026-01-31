@@ -1,7 +1,4 @@
-import main.java.Command;
-import main.java.Deadline;
-import main.java.Event;
-import main.java.Todo;
+package main.java;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -156,17 +153,17 @@ public class Nuke {
 
     private static void executeTodo(String description) {
         addCommand(new Todo(description));
-        System.out.println("\tReceive a command");
+        System.out.println("\tReceive a pending command: " + description);
     }
 
     private static void executeDeadline(String description, String by) {
         addCommand(new Deadline(description, by));
-        System.out.println("\tReceive a strike order by " + by);
+        System.out.println("\tReceive a strike order: " + description + " by " + by);
     }
 
     private static void executeEvent(String description, String from, String to) {
         addCommand(new Event(description, from, to));
-        System.out.println("\tReceive an operation from " +from +"to "+to);
+        System.out.println("\tReceive an operation " + description + " from " + from + " to " + to);
     }
 
     public static void main(String[] args) {

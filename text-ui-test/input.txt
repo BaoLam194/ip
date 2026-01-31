@@ -1,0 +1,13 @@
+todo test1
+list
+todo test2
+deadline make something weird /by idk
+event doing that thing /from start /to end
+mark 1
+mark 4
+deadline doing deadline :) /by deadline :)
+list
+mark 3
+unmark 1
+doing something that is not a command
+list
