@@ -6,6 +6,11 @@ import java.util.Scanner;
 public class Nuke {
     private static Command[] commands = new Command[100];
     private static int numCommand = 0;
+    private static boolean isActive = true;
+
+    private static void stopNuke(){
+        isActive = false;
+    }
 
     private static void announce(String mode) {
         if (mode.equals("greet")) {
@@ -14,7 +19,6 @@ public class Nuke {
             System.out.println("\tWho do you want me to nuke today?");
             separate();
         } else {// default to exit
-            separate();
             System.out.println("\tKaboommm!");
             System.out.println("\tI have destroyed our current session!");
             System.out.println("\tSee you later!");
@@ -30,22 +34,25 @@ public class Nuke {
         commands[numCommand++] = c;
     }
 
-    private static boolean receiveCommand(String command) {
-
-        if (command.equals("bye")) { // Handle bye directly
-            announce("exit");
-            return false;
-        }
+    private static void receiveCommand(String command) {
         separate();
         handleCommand(command);
-        separate();
-        return true;
+        if(isActive){
+            separate();
+        }
     }
 
     private static void handleCommand(String commandLine) {
         String[] parsedCommand = commandLine.split(" ");
         String command = parsedCommand[0];
         switch (command) {
+        case "bye" ->{
+             // Handle bye directly
+            announce("exit");
+            stopNuke();
+            return;
+
+        }
         case "list" -> {
             executeList();
             return;
@@ -170,7 +177,9 @@ public class Nuke {
         Scanner in = new Scanner(System.in);
         announce("greet");
         // Hand over execution for handle()
-        while (receiveCommand(in.nextLine())) {
+        while (isActive) {
+            String command = in.nextLine();
+            receiveCommand(command);
         }
     }
 }
