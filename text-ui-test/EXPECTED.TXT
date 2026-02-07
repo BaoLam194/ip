@@ -1,5 +1,5 @@
 	===============================
-	Hi! Nuke's waiting for your command!
+	Hi! main.java.nuke.Nuke's waiting for your command!
 	Who do you want me to nuke today?
 	-------------------------------
 	-------------------------------
