@@ -1,13 +1,29 @@
+list
 todo test1
+deadline this thing /by
 list
 todo test2
+mark 100
+event here /from /to August 8th
 deadline make something weird /by idk
+todo
 event doing that thing /from start /to end
+deadline
 mark 1
+event xc /from now to
+mark
 mark 4
 deadline doing deadline :) /by deadline :)
+deadline unknown /from this day /to
+mark x
 list
 mark 3
+deadline /by now
+event XD zxc /to
 unmark 1
 doing something that is not a command
+list
+deadline /from now /to future
+mark 2
+mark 5
 list

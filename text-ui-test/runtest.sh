@@ -13,7 +13,7 @@ then
 fi
 
 # compile the code into the bin folder, terminates if error occurred
-if ! javac -cp ../src/main/java/nuke -Xlint:none -d ../bin ../src/main/java/nuke/*.java ../src/main/java/nuke/command/*.java
+if ! javac -cp ../src/main/java/nuke -Xlint:none -d ../bin ../src/main/java/nuke/*.java ../src/main/java/nuke/command/*.java ../src/main/java/nuke/exception/*.java
 then
     echo "********** BUILD FAILURE **********"
     exit 1

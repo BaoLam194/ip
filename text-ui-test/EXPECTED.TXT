@@ -1,52 +1,107 @@
 	===============================
-	Hi! main.java.nuke.Nuke's waiting for your command!
+	Hi! Nuke's waiting for your command!
 	Who do you want me to nuke today?
-	-------------------------------
-	-------------------------------
+	---------------------------------------
+	---------------------------------------
+	There is no command yet!
+	---------------------------------------
+	---------------------------------------
 	Receive a pending command: test1
-	-------------------------------
-	-------------------------------
-1.[T][ ] test1
-	-------------------------------
-	-------------------------------
+	---------------------------------------
+	---------------------------------------
+	Give a precise timing! Nuke can destroy everything
+	---------------------------------------
+	---------------------------------------
+	You order 1 commands:
+	1.[T][ ] test1
+	---------------------------------------
+	---------------------------------------
 	Receive a pending command: test2
-	-------------------------------
-	-------------------------------
-	Receive a strike order: make something weird by idk
-	-------------------------------
-	-------------------------------
-	Receive an operation doing that thing from start to end
-	-------------------------------
-	-------------------------------
+	---------------------------------------
+	---------------------------------------
+	Sir! You access out-of-bound command
+	---------------------------------------
+	---------------------------------------
+	Nuke needs to know operation starting time!
+	---------------------------------------
+	---------------------------------------
+	Receive a strike order: make something weird, by idk
+	---------------------------------------
+	---------------------------------------
+	Nuke needs a description!
+	---------------------------------------
+	---------------------------------------
+	Receive an operation: doing that thing, from start, to end
+	---------------------------------------
+	---------------------------------------
+	The strike precise date highlighted "/by" is lacking
+	---------------------------------------
+	---------------------------------------
 	Mark the command: test1
-	-------------------------------
-	-------------------------------
+	---------------------------------------
+	---------------------------------------
+	Nuke has to know precise duration marked by "from" and "to"
+	---------------------------------------
+	---------------------------------------
+	Nuke doesn't know what to mark
+	---------------------------------------
+	---------------------------------------
 	Mark the command: doing that thing
-	-------------------------------
-	-------------------------------
-	Receive a strike order: doing deadline :) by deadline :)
-	-------------------------------
-	-------------------------------
-1.[T][X] test1
-2.[T][ ] test2
-3.[D][ ] make something weird (by: idk)
-4.[E][X] doing that thing (from: start to: end)
-5.[D][ ] doing deadline :) (by: deadline :))
-	-------------------------------
-	-------------------------------
+	---------------------------------------
+	---------------------------------------
+	Receive a strike order: doing deadline :), by deadline :)
+	---------------------------------------
+	---------------------------------------
+	The strike precise date highlighted "/by" is lacking
+	---------------------------------------
+	---------------------------------------
+	Nuke can not mark not-number command
+	---------------------------------------
+	---------------------------------------
+	You order 5 commands:
+	1.[T][X] test1
+	2.[T][ ] test2
+	3.[D][ ] make something weird (by: idk)
+	4.[E][X] doing that thing (from: start to: end)
+	5.[D][ ] doing deadline :) (by: deadline :))
+	---------------------------------------
+	---------------------------------------
 	Mark the command: make something weird
-	-------------------------------
-	-------------------------------
+	---------------------------------------
+	---------------------------------------
+	Nuke needs to know the strike description!
+	---------------------------------------
+	---------------------------------------
+	Nuke has to know precise duration marked by "from" and "to"
+	---------------------------------------
+	---------------------------------------
 	Unmark the command: test1
-	-------------------------------
-	-------------------------------
-	Receive command: doing something that is not a command
-	-------------------------------
-	-------------------------------
-1.[T][ ] test1
-2.[T][ ] test2
-3.[D][X] make something weird (by: idk)
-4.[E][X] doing that thing (from: start to: end)
-5.[D][ ] doing deadline :) (by: deadline :))
-6.[ ] doing something that is not a command
-	-------------------------------
+	---------------------------------------
+	---------------------------------------
+	Nuke is confused, unknown command
+	---------------------------------------
+	---------------------------------------
+	You order 5 commands:
+	1.[T][ ] test1
+	2.[T][ ] test2
+	3.[D][X] make something weird (by: idk)
+	4.[E][X] doing that thing (from: start to: end)
+	5.[D][ ] doing deadline :) (by: deadline :))
+	---------------------------------------
+	---------------------------------------
+	The strike precise date highlighted "/by" is lacking
+	---------------------------------------
+	---------------------------------------
+	Mark the command: test2
+	---------------------------------------
+	---------------------------------------
+	Mark the command: doing deadline :)
+	---------------------------------------
+	---------------------------------------
+	You order 5 commands:
+	1.[T][ ] test1
+	2.[T][X] test2
+	3.[D][X] make something weird (by: idk)
+	4.[E][X] doing that thing (from: start to: end)
+	5.[D][X] doing deadline :) (by: deadline :))
+	---------------------------------------
