@@ -1,4 +1,4 @@
-package main.java;
+package nuke.command;
 
 public class Command {
     private boolean isDone;

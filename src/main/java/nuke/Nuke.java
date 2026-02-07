@@ -1,4 +1,9 @@
-package main.java;
+package nuke;
+
+import nuke.command.Command;
+import nuke.command.Deadline;
+import nuke.command.Event;
+import nuke.command.Todo;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -15,7 +20,7 @@ public class Nuke {
     private static void announce(String mode) {
         if (mode.equals("greet")) {
             System.out.println("\t===============================");
-            System.out.println("\tHi! Nuke's waiting for your command!");
+            System.out.println("\tHi! main.java.nuke.Nuke's waiting for your command!");
             System.out.println("\tWho do you want me to nuke today?");
             separate();
         } else {// default to exit
@@ -76,7 +81,7 @@ public class Nuke {
         }
         case "deadline" -> { // deadline command
             int byIndex = -1;
-            // Find "/by" keyword to create new Command
+            // Find "/by" keyword to create new main.java.nuke.command.Command
             for (int i = 1; i < parsedCommand.length; i++) {
                 if (parsedCommand[i].equals("/by")) {
                     byIndex = i;
@@ -95,7 +100,7 @@ public class Nuke {
         case "event" -> { // deadline command
             int fromIndex = -1;
             int toIndex = -1;
-            // Find "/from" and "/to" keyword to create new Command
+            // Find "/from" and "/to" keyword to create new main.java.nuke.command.Command
             for (int i = 1; i < parsedCommand.length; i++) {
                 if (parsedCommand[i].equals("/from")) {
                     fromIndex = i;
@@ -123,7 +128,7 @@ public class Nuke {
         System.out.printf("\tReceive command: %s%n", commandLine);
     }
 
-    // Command implementation
+    // main.java.nuke.command.Command implementation
     private static void executeList() {
         for (int i = 0; i < numCommand; i++) {
             System.out.printf("%d.%s%n", i + 1, commands[i].toString());
