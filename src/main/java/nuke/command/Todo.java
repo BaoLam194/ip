@@ -1,6 +1,6 @@
 package nuke.command;
 
-public class Todo extends Command{
+public class Todo extends Command {
 
     public Todo(String name) {
         super(name);

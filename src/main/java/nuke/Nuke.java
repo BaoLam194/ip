@@ -14,7 +14,7 @@ public class Nuke {
     private static int numCommand = 0;
     private static boolean isActive = true;
 
-    private static void stopNuke(){
+    private static void stopNuke() {
         isActive = false;
     }
 
@@ -45,20 +45,20 @@ public class Nuke {
         try {
             handleCommand(command);
         } catch (NukeException e) {
-            System.out.println("\t"+e.getMessage());
+            System.out.println("\t" + e.getMessage());
         }
-        if(isActive){ // stop separate if it has to be terminated
+        if (isActive) { // stop separate if it has to be terminated
             separate();
         }
     }
 
     // categorize the command and analyze if it is correct before passing to next function
-    private static void handleCommand(String commandLine) throws NukeException{
+    private static void handleCommand(String commandLine) throws NukeException {
         String[] parsedCommand = commandLine.split(" ");
         String command = parsedCommand[0];
         switch (command) {
-        case "bye" ->{
-             // Handle bye directly
+        case "bye" -> {
+            // Handle bye directly
             announce("exit");
             stopNuke();
             return;
@@ -75,7 +75,7 @@ public class Nuke {
             int index;
             try { // validate the index
                 index = Integer.parseInt(parsedCommand[1]);
-            } catch (Exception e){
+            } catch (Exception e) {
                 throw new NukeException("Nuke can not mark not-number command");
             }
             if (index > numCommand) {//out-of-bound
@@ -108,10 +108,10 @@ public class Nuke {
             if (byIndex == -1) {
                 throw new NukeException("The strike precise date highlighted \"/by\" is lacking");
             }
-            if(byIndex == 1){ // no description
+            if (byIndex == 1) { // no description
                 throw new NukeException("Nuke needs to know the strike description!");
             }
-            if(byIndex == parsedCommand.length -1){
+            if (byIndex == parsedCommand.length - 1) {
                 throw new NukeException("Give a precise timing! Nuke can destroy everything");
             }
             String description = String.join(" ", Arrays.copyOfRange(parsedCommand, 1, byIndex));
@@ -135,19 +135,19 @@ public class Nuke {
                     break;
                 }
             }
-            if (fromIndex == -1 || toIndex == -1 ) {
+            if (fromIndex == -1 || toIndex == -1) {
                 throw new NukeException("Nuke has to know precise duration marked by \"from\" and \"to\"");
             }
-            if(toIndex < fromIndex){
+            if (toIndex < fromIndex) {
                 throw new NukeException("Please swap /from and /to order");
             }
-            if(fromIndex == 1){
+            if (fromIndex == 1) {
                 throw new NukeException("Nuke needs to know the operation description!");
             }
-            if(toIndex == fromIndex + 1){
+            if (toIndex == fromIndex + 1) {
                 throw new NukeException("Nuke needs to know operation starting time!");
             }
-            if(toIndex == parsedCommand.length - 1){
+            if (toIndex == parsedCommand.length - 1) {
                 throw new NukeException("Give a precise end timing! Nuke can destroy everything!");
             }
             String description = String.join(" ", Arrays.copyOfRange(parsedCommand, 1, fromIndex));
@@ -163,9 +163,9 @@ public class Nuke {
 
     // command implementation, should be no error here onwards
     private static void executeList() {
-        if(numCommand!=0){
+        if (numCommand != 0) {
             System.out.printf("\tYou order %d commands:%n", numCommand);
-        }else{
+        } else {
             System.out.println("\tThere is no command yet!");
         }
 
