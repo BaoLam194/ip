@@ -78,7 +78,7 @@ public class Nuke {
             } catch (Exception e) {
                 throw new NukeException("Nuke can not mark not-number command");
             }
-            if (index > commands.size()) {//out-of-bound
+            if (index > commands.size() || index <= 0) {//out-of-bound
                 throw new NukeException("Sir! You access out-of-bound command");
             }
             if (command.equals("mark")) {
@@ -156,6 +156,22 @@ public class Nuke {
             executeEvent(description, from, to);
             return;
         }
+        case "delete" -> {
+            if (parsedCommand.length != 2) { // some explicit format handling
+                throw new NukeException("Nuke doesn't know what to delete");
+            }
+            int index;
+            try { // validate the index
+                index = Integer.parseInt(parsedCommand[1]);
+            } catch (Exception e) {
+                throw new NukeException("Nuke can not delete not-number command");
+            }
+            if (index > commands.size() || index <= 0) {//out-of-bound
+                throw new NukeException("Sir! You access out-of-bound command");
+            }
+            executeDelete(index);
+            return;
+        }
         }
         //Not match any built-in command so reject
         throw new NukeException("Nuke is confused, unknown command");
@@ -176,12 +192,12 @@ public class Nuke {
 
     private static void executeMark(int index) {
         commands.get(index-1).setDone();
-        System.out.printf("\tMark the command: %s%n", commands.get(index-1).getDescription());
+        System.out.printf("\tMark the command: %s%n", commands.get(index-1).toString());
     }
 
     private static void executeUnmark(int index) {
         commands.get(index-1).setUndone();
-        System.out.printf("\tUnmark the command: %s%n", commands.get(index-1).getDescription());
+        System.out.printf("\tUnmark the command: %s%n", commands.get(index-1).toString());
 
     }
 
@@ -198,6 +214,11 @@ public class Nuke {
     private static void executeEvent(String description, String from, String to) {
         addCommand(new Event(description, from, to));
         System.out.println("\tReceive an operation: " + description + ", from " + from + ", to " + to);
+    }
+
+    private static void executeDelete(int index) {
+        Command temp = commands.remove(index - 1);
+        System.out.printf("\tDelete old command: %s%n", temp.toString());
     }
 
     private static void recoverError(Exception e){

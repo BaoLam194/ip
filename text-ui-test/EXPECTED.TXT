@@ -37,7 +37,7 @@
 	The strike precise date highlighted "/by" is lacking
 	---------------------------------------
 	---------------------------------------
-	Mark the command: test1
+	Mark the command: [T][X] test1
 	---------------------------------------
 	---------------------------------------
 	Nuke has to know precise duration marked by "from" and "to"
@@ -46,7 +46,7 @@
 	Nuke doesn't know what to mark
 	---------------------------------------
 	---------------------------------------
-	Mark the command: doing that thing
+	Mark the command: [E][X] doing that thing (from: start to: end)
 	---------------------------------------
 	---------------------------------------
 	Receive a strike order: doing deadline :), by deadline :)
@@ -66,7 +66,7 @@
 	5.[D][ ] doing deadline :) (by: deadline :))
 	---------------------------------------
 	---------------------------------------
-	Mark the command: make something weird
+	Mark the command: [D][X] make something weird (by: idk)
 	---------------------------------------
 	---------------------------------------
 	Nuke needs to know the strike description!
@@ -75,7 +75,7 @@
 	Nuke has to know precise duration marked by "from" and "to"
 	---------------------------------------
 	---------------------------------------
-	Unmark the command: test1
+	Unmark the command: [T][ ] test1
 	---------------------------------------
 	---------------------------------------
 	Nuke is confused, unknown command
@@ -92,10 +92,10 @@
 	The strike precise date highlighted "/by" is lacking
 	---------------------------------------
 	---------------------------------------
-	Mark the command: test2
+	Mark the command: [T][X] test2
 	---------------------------------------
 	---------------------------------------
-	Mark the command: doing deadline :)
+	Mark the command: [D][X] doing deadline :) (by: deadline :))
 	---------------------------------------
 	---------------------------------------
 	You order 5 commands:
@@ -104,4 +104,22 @@
 	3.[D][X] make something weird (by: idk)
 	4.[E][X] doing that thing (from: start to: end)
 	5.[D][X] doing deadline :) (by: deadline :))
+	---------------------------------------
+	---------------------------------------
+	Sir! You access out-of-bound command
+	---------------------------------------
+	---------------------------------------
+	Nuke doesn't know what to delete
+	---------------------------------------
+	---------------------------------------
+	Delete old command: [T][X] test2
+	---------------------------------------
+	---------------------------------------
+	Delete old command: [E][X] doing that thing (from: start to: end)
+	---------------------------------------
+	---------------------------------------
+	You order 3 commands:
+	1.[T][ ] test1
+	2.[D][X] make something weird (by: idk)
+	3.[D][X] doing deadline :) (by: deadline :))
 	---------------------------------------
