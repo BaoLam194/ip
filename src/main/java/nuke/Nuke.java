@@ -9,7 +9,7 @@ import nuke.exception.NukeException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
-
+//
 public class Nuke {
     private static ArrayList<Command> commands = new ArrayList<>();
     private static boolean isActive = true;
