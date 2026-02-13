@@ -6,12 +6,12 @@ import nuke.command.Event;
 import nuke.command.Todo;
 import nuke.exception.NukeException;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class Nuke {
-    private static Command[] commands = new Command[100];
-    private static int numCommand = 0;
+    private static ArrayList<Command> commands = new ArrayList<>();
     private static boolean isActive = true;
 
     private static void stopNuke() {
@@ -37,7 +37,7 @@ public class Nuke {
     }
 
     private static void addCommand(Command c) {
-        commands[numCommand++] = c;
+        commands.add(c);
     }
 
     private static void receiveCommand(String command) {
@@ -78,7 +78,7 @@ public class Nuke {
             } catch (Exception e) {
                 throw new NukeException("Nuke can not mark not-number command");
             }
-            if (index > numCommand) {//out-of-bound
+            if (index > commands.size()) {//out-of-bound
                 throw new NukeException("Sir! You access out-of-bound command");
             }
             if (command.equals("mark")) {
@@ -163,25 +163,25 @@ public class Nuke {
 
     // command implementation, should be no error here onwards
     private static void executeList() {
-        if (numCommand != 0) {
-            System.out.printf("\tYou order %d commands:%n", numCommand);
+        if (!commands.isEmpty()) {
+            System.out.printf("\tYou order %d commands:%n", commands.size());
         } else {
             System.out.println("\tThere is no command yet!");
         }
 
-        for (int i = 0; i < numCommand; i++) {
-            System.out.printf("\t%d.%s%n", i + 1, commands[i].toString());
+        for (int i = 0; i < commands.size(); i++) {
+            System.out.printf("\t%d.%s%n", i + 1, commands.get(i).toString());
         }
     }
 
     private static void executeMark(int index) {
-        commands[index - 1].setDone();
-        System.out.printf("\tMark the command: %s%n", commands[index - 1].getDescription());
+        commands.get(index-1).setDone();
+        System.out.printf("\tMark the command: %s%n", commands.get(index-1).getDescription());
     }
 
     private static void executeUnmark(int index) {
-        commands[index - 1].setUndone();
-        System.out.printf("\tUnmark the command: %s%n", commands[index - 1].getDescription());
+        commands.get(index-1).setUndone();
+        System.out.printf("\tUnmark the command: %s%n", commands.get(index-1).getDescription());
 
     }
 
