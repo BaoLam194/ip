@@ -42,10 +42,10 @@ public class Nuke {
 
     private static void receiveCommand(String command) {
         separate();
-        try {
+        try { // error will only arise from this
             handleCommand(command);
         } catch (NukeException e) {
-            System.out.println("\t" + e.getMessage());
+            recoverError(e);
         }
         if (isActive) { // stop separate if it has to be terminated
             separate();
@@ -198,6 +198,10 @@ public class Nuke {
     private static void executeEvent(String description, String from, String to) {
         addCommand(new Event(description, from, to));
         System.out.println("\tReceive an operation: " + description + ", from " + from + ", to " + to);
+    }
+
+    private static void recoverError(Exception e){
+        System.out.println("\t" + e.getMessage());
     }
 
     public static void main(String[] args) {
