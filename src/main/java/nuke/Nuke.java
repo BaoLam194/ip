@@ -6,6 +6,8 @@ import nuke.exception.NukeException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -62,7 +64,13 @@ public class Nuke {
         fw.close();
     }
 
-    private static void retrieveHistory() throws FileNotFoundException {
+    private static void retrieveHistory() throws IOException {
+        Path data = Path.of("data");
+        Boolean isExisted = Files.exists(data);
+        if (!isExisted){
+            Files.createDirectory(data);
+            throw new IOException("No path now");
+        }
         File f = new File("data/history.txt");
         Scanner s = new Scanner(f); // create a Scanner using the File as the source
         String tempBlock = "";
@@ -278,11 +286,11 @@ public class Nuke {
         System.out.println("\t" + e.getMessage());
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
         // Retrieve history
         try{
             retrieveHistory();
-        } catch(FileNotFoundException e){
+        } catch(IOException e){
             System.out.println("no file ?");
         }
 
