@@ -15,4 +15,20 @@ public class Event extends Command {
     public String toString() {
         return "[E]" + super.toString() + " (from: " + from + " to: " + to + ")";
     }
+
+    public String toHistory() {
+        String res="";
+        res += "Type: event";
+        res += System.lineSeparator();
+        res +=  "Desc: " + this.getDescription();
+        res += System.lineSeparator();
+        res +=  "From: " + this.from;
+        res += System.lineSeparator();
+        res +=  "To: " + this.to;
+        res += System.lineSeparator();
+        res +=  "Mark: " + this.isDone();
+        res += System.lineSeparator();
+        return res;
+    }
+
 }

@@ -1,18 +1,20 @@
 package nuke;
 
-import nuke.command.Command;
-import nuke.command.Deadline;
-import nuke.command.Event;
-import nuke.command.Todo;
+import nuke.command.*;
 import nuke.exception.NukeException;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.io.FileWriter;
 //
 public class Nuke {
     private static ArrayList<Command> commands = new ArrayList<>();
     private static boolean isActive = true;
+    private static boolean isChanged = false;
 
     private static void stopNuke() {
         isActive = false;
@@ -40,20 +42,66 @@ public class Nuke {
         commands.add(c);
     }
 
+    private static String convertToHistory(){
+
+        String lines = "";
+        for(Command c : commands){
+            if(!lines.isEmpty()) {
+                lines += "-----";
+                lines += System.lineSeparator();
+            }
+
+            lines += c.toHistory();
+        }
+        return lines;
+    }
+
+    private static void writeToHistory() throws IOException {
+        FileWriter fw = new FileWriter("data/history.txt");
+        fw.write(convertToHistory());
+        fw.close();
+    }
+
+    private static void retrieveHistory() throws FileNotFoundException {
+        File f = new File("data/history.txt");
+        Scanner s = new Scanner(f); // create a Scanner using the File as the source
+        String tempBlock = "";
+        while (s.hasNext()) {
+            String line = s.nextLine();
+            if(!line.equals("-----")) {
+                tempBlock += line;
+                tempBlock += System.lineSeparator();
+            }
+            else{ // parse the current line
+                commands.add(CommandParser.parse(tempBlock));
+                tempBlock = "";
+            }
+        }
+        if(!tempBlock.isEmpty()){
+            commands.add(CommandParser.parse(tempBlock));
+        }
+    }
+
     private static void receiveCommand(String command) {
         separate();
         try { // error will only arise from this
             handleCommand(command);
-        } catch (NukeException e) {
+            if(isChanged){ // need to writeback to history
+                writeToHistory();
+            }
+        } catch (Exception e) {
             recoverError(e);
         }
         if (isActive) { // stop separate if it has to be terminated
             separate();
         }
+
     }
 
     // categorize the command and analyze if it is correct before passing to next function
     private static void handleCommand(String commandLine) throws NukeException {
+        // reset the routine
+        isChanged = false;
         String[] parsedCommand = commandLine.split(" ");
         String command = parsedCommand[0];
         switch (command) {
@@ -86,6 +134,7 @@ public class Nuke {
             } else {
                 executeUnmark(index);
             }
+            isChanged = true;
             return;
         }
         case "todo" -> { // to do command
@@ -94,6 +143,7 @@ public class Nuke {
             }
             String description = String.join(" ", Arrays.copyOfRange(parsedCommand, 1, parsedCommand.length));
             executeTodo(description);
+            isChanged = true;
             return;
         }
         case "deadline" -> { // deadline command
@@ -117,6 +167,7 @@ public class Nuke {
             String description = String.join(" ", Arrays.copyOfRange(parsedCommand, 1, byIndex));
             String by = String.join(" ", Arrays.copyOfRange(parsedCommand, byIndex + 1, parsedCommand.length));
             executeDeadline(description, by);
+            isChanged = true;
             return;
         }
         case "event" -> { // deadline command
@@ -154,6 +205,7 @@ public class Nuke {
             String from = String.join(" ", Arrays.copyOfRange(parsedCommand, fromIndex + 1, toIndex));
             String to = String.join(" ", Arrays.copyOfRange(parsedCommand, toIndex + 1, parsedCommand.length));
             executeEvent(description, from, to);
+            isChanged = true;
             return;
         }
         case "delete" -> {
@@ -170,6 +222,7 @@ public class Nuke {
                 throw new NukeException("Sir! You access out-of-bound command");
             }
             executeDelete(index);
+            isChanged = true;
             return;
         }
         }
@@ -226,6 +279,13 @@ public class Nuke {
     }
 
     public static void main(String[] args) {
+        // Retrieve history
+        try{
+            retrieveHistory();
+        } catch(FileNotFoundException e){
+            System.out.println("no file ?");
+        }
+
         Scanner in = new Scanner(System.in);
         announce("greet");
         // Hand over execution for handle()

@@ -1,6 +1,6 @@
 package nuke.command;
 
-public class Command {
+public abstract class Command {
     private boolean isDone;
     private String description;
 
@@ -13,6 +13,10 @@ public class Command {
     // Getter and Setter
     public String getDescription() {
         return description;
+    }
+
+    public boolean isDone() {
+        return isDone;
     }
 
     public void setDone() {
@@ -29,4 +33,6 @@ public class Command {
         res = ((this.isDone) ? "[X]" : "[ ]") + " " + description;
         return res;
     }
+
+    public abstract String toHistory();
 }

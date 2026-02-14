@@ -13,4 +13,17 @@ public class Deadline extends Command {
     public String toString() {
         return "[D]" + super.toString() + " (by: " + by + ")";
     }
+
+    public String toHistory() {
+        String res="";
+        res += "Type: deadline";
+        res += System.lineSeparator();
+        res +=  "Desc: " + this.getDescription();
+        res += System.lineSeparator();
+        res +=  "By: " + this.by;
+        res += System.lineSeparator();
+        res +=  "Mark: " + this.isDone();
+        res += System.lineSeparator();
+        return res;
+    }
 }
