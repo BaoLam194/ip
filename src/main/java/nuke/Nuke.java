@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.io.FileWriter;
-//
+
 public class Nuke {
     private static ArrayList<Mission> missions = new ArrayList<>();
     private static boolean isActive = true;
@@ -56,13 +56,13 @@ public class Nuke {
         }
         return lines;
     }
-
+    // write to history
     private static void writeToHistory() throws IOException {
         FileWriter fw = new FileWriter("data/history.txt");
         fw.write(convertToHistory());
         fw.close();
     }
-
+    // retrieve history every start of the app
     private static void retrieveHistory() throws IOException {
         Path data = Path.of("data");
         Boolean isExisted = Files.exists(data);
