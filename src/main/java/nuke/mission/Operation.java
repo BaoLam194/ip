@@ -17,16 +17,16 @@ public class Operation extends Mission {
     }
 
     public String toHistory() {
-        String res="";
+        String res = "";
         res += "Type: event";
         res += System.lineSeparator();
-        res +=  "Desc: " + this.getDescription();
+        res += "Desc: " + this.getDescription();
         res += System.lineSeparator();
-        res +=  "From: " + this.from;
+        res += "From: " + this.from;
         res += System.lineSeparator();
-        res +=  "To: " + this.to;
+        res += "To: " + this.to;
         res += System.lineSeparator();
-        res +=  "Mark: " + this.isDone();
+        res += "Mark: " + this.isDone();
         res += System.lineSeparator();
         return res;
     }

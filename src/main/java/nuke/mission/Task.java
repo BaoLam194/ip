@@ -13,12 +13,12 @@ public class Task extends Mission {
 
 
     public String toHistory() {
-        String res="";
+        String res = "";
         res += "Type: todo";
         res += System.lineSeparator();
-        res +=  "Desc: " + this.getDescription();
+        res += "Desc: " + this.getDescription();
         res += System.lineSeparator();
-        res +=  "Mark: " + this.isDone();
+        res += "Mark: " + this.isDone();
         res += System.lineSeparator();
         return res;
     }
