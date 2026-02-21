@@ -1,7 +1,7 @@
 package nuke.storage;
 
 import nuke.mission.Mission;
-import nuke.mission.MissionParser;
+import nuke.parser.MissionParser;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -19,11 +19,12 @@ public class Storage {
     public Storage(String filePath) {
         this.filePath = filePath;
     }
+
     // retrieve history every start of the app
     public ArrayList<Mission> load() throws IOException {
         Path data = Path.of("data");
         boolean isExisted = Files.exists(data);
-        if (!isExisted){
+        if (!isExisted) {
             Files.createDirectory(data);
             return new ArrayList<>();
         }
@@ -35,16 +36,15 @@ public class Storage {
         ArrayList<Mission> missions = new ArrayList<>();
         while (s.hasNext()) {
             String line = s.nextLine();
-            if(!line.equals("-----")) {
+            if (!line.equals("-----")) {
                 tempBlock.append(line);
                 tempBlock.append(System.lineSeparator());
-            }
-            else{
+            } else {
                 missions.add(MissionParser.parse(tempBlock.toString()));
                 tempBlock = new StringBuilder();
             }
         }
-        if(!tempBlock.isEmpty()){
+        if (!tempBlock.isEmpty()) {
             missions.add(MissionParser.parse(tempBlock.toString()));
         }
         return missions;
@@ -58,11 +58,11 @@ public class Storage {
     }
 
     // convert receive missions into history
-    private static String convertToHistory(ArrayList<Mission> missions){
+    private static String convertToHistory(ArrayList<Mission> missions) {
 
         StringBuilder lines = new StringBuilder();
-        for(Mission c : missions){
-            if(!lines.isEmpty()) {
+        for (Mission c : missions) {
+            if (!lines.isEmpty()) {
                 lines.append("-----");
                 lines.append(System.lineSeparator());
             }

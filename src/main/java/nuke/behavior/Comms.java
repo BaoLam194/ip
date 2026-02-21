@@ -1,8 +1,13 @@
 package nuke.behavior;
 
+import java.util.Scanner;
+
 public class Comms {
+    private Scanner in;
     public Comms() {
+        in = new Scanner(System.in);
     }
+
     public void greet() {
         System.out.println("\t===============================");
         System.out.println("\tHi! Nuke's waiting for your command!");
@@ -22,7 +27,11 @@ public class Comms {
         System.out.println("\t---------------------------------------");
     }
 
-    public void transmit(String order){
-        System.out.print(order);
+    public void transmitOrder(String order) {
+        System.out.println(order);
+    }
+
+    public String readCommand() {
+        return in.nextLine();
     }
 }

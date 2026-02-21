@@ -31,7 +31,7 @@ public class Nuke {
         signalOfficer.separate();
         try { // error will only arise from this
             handleCommand(command);
-            if(isChanged){ // need to writeback to history
+            if (isChanged) { // need to writeback to history
                 militarySecret.update(missions);
             }
         } catch (Exception e) {
@@ -185,45 +185,45 @@ public class Nuke {
     // command implementation, should be no error here onwards
     private static void executeList() {
         if (!missions.isEmpty()) {
-            signalOfficer.transmit(String.format("\tWe currently have %d missions:%n", missions.size()));
+            signalOfficer.transmitOrder(String.format("\tWe currently have %d missions:", missions.size()));
         } else {
-            signalOfficer.transmit(String.format("\tThere is no mission yet!%n"));
+            signalOfficer.transmitOrder(String.format("\tThere is no mission yet!"));
         }
 
         for (int i = 0; i < missions.size(); i++) {
-            signalOfficer.transmit(String.format("\t%d.%s%n", i + 1, missions.get(i).toString()));
+            signalOfficer.transmitOrder(String.format("\t%d.%s", i + 1, missions.get(i).toString()));
         }
     }
 
     private static void executeMark(int index) {
-        missions.get(index-1).setDone();
-        signalOfficer.transmit(String.format("\tMark the mission: %s%n", missions.get(index-1).toString()));
+        missions.get(index - 1).setDone();
+        signalOfficer.transmitOrder(String.format("\tMark the mission: %s", missions.get(index - 1).toString()));
     }
 
     private static void executeUnmark(int index) {
-        missions.get(index-1).setUndone();
-        signalOfficer.transmit(String.format("\tUnmark the mission: %s%n", missions.get(index-1).toString()));
+        missions.get(index - 1).setUndone();
+        signalOfficer.transmitOrder(String.format("\tUnmark the mission: %s", missions.get(index - 1).toString()));
 
     }
 
     private static void executeTodo(String description) {
         addCommand(new Task(description));
-        signalOfficer.transmit(String.format("\tReceive a pending task: " + description +"%n"));
+        signalOfficer.transmitOrder(String.format("\tReceive a pending task: " + description));
     }
 
     private static void executeDeadline(String description, String by) {
         addCommand(new Strike(description, by));
-        signalOfficer.transmit(String.format("\tReceive a strike order: " + description + ", by " + by+"%n"));
+        signalOfficer.transmitOrder(String.format("\tReceive a strike order: " + description + ", by " + by));
     }
 
     private static void executeEvent(String description, String from, String to) {
         addCommand(new Operation(description, from, to));
-        signalOfficer.transmit(String.format("\tReceive an operation: " + description + ", from " + from + ", to " + to +"%n"));
+        signalOfficer.transmitOrder(String.format("\tReceive an operation: " + description + ", from " + from + ", to " + to));
     }
 
     private static void executeDelete(int index) {
         Mission temp = missions.remove(index - 1);
-        signalOfficer.transmit(String.format("\tDelete old mission: %s%n", temp.toString()));
+        signalOfficer.transmitOrder(String.format("\tDelete old mission: %s", temp.toString()));
     }
 
     private static void executeFind(String word) {
@@ -231,39 +231,38 @@ public class Nuke {
         for (Mission mission : missions) {
             if (mission.getDescription().contains(word)) {
                 count++;
-                signalOfficer.transmit(String.format("\t%d.%s%n", count, mission));
+                signalOfficer.transmitOrder(String.format("\t%d.%s", count, mission));
             }
         }
         if (count > 0) {
-            signalOfficer.transmit(String.format("\tYou got %d match.%n", count));
-            
+            signalOfficer.transmitOrder(String.format("\tYou got %d match.", count));
+
         } else {
-            signalOfficer.transmit(String.format("\tThere is no mission yet!%n"));
+            signalOfficer.transmitOrder(String.format("\tThere is no mission yet!"));
         }
 
 
     }
 
-    private static void recoverError(Exception e){
-        signalOfficer.transmit(String.format("\t" + e.getMessage() +"%n"));
+    private static void recoverError(Exception e) {
+        signalOfficer.transmitOrder(String.format("\t" + e.getMessage()));
     }
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
         militarySecret = new Storage("data/history.txt");
         signalOfficer = new Comms();
-        Scanner in = new Scanner(System.in);
 
         // Retrieve history
-        try{
+        try {
             missions = militarySecret.load();
-        } catch(IOException e){
+        } catch (IOException e) {
             // handle later
         }
 
         signalOfficer.greet();
         // Hand over execution for handle()
         while (isActive) {
-            String command = in.nextLine();
+            String command = signalOfficer.readCommand();
             receiveCommand(command);
         }
     }
