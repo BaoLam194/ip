@@ -2,11 +2,10 @@ package nuke;
 
 import nuke.mission.*;
 import nuke.exception.NukeException;
+import nuke.storage.Storage;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -14,6 +13,7 @@ import java.io.FileWriter;
 
 public class Nuke {
     private static ArrayList<Mission> missions = new ArrayList<>();
+    private static Storage storage;
     private static boolean isActive = true;
     private static boolean isChanged = false;
 
@@ -43,58 +43,13 @@ public class Nuke {
         missions.add(c);
     }
 
-    private static String convertToHistory(){
-
-        String lines = "";
-        for(Mission c : missions){
-            if(!lines.isEmpty()) {
-                lines += "-----";
-                lines += System.lineSeparator();
-            }
-
-            lines += c.toHistory();
-        }
-        return lines;
-    }
-    // write to history
-    private static void writeToHistory() throws IOException {
-        FileWriter fw = new FileWriter("data/history.txt");
-        fw.write(convertToHistory());
-        fw.close();
-    }
-    // retrieve history every start of the app
-    private static void retrieveHistory() throws IOException {
-        Path data = Path.of("data");
-        Boolean isExisted = Files.exists(data);
-        if (!isExisted){
-            Files.createDirectory(data);
-            throw new IOException("No path now");
-        }
-        File f = new File("data/history.txt");
-        Scanner s = new Scanner(f); // create a Scanner using the File as the source
-        String tempBlock = "";
-        while (s.hasNext()) {
-            String line = s.nextLine();
-            if(!line.equals("-----")) {
-                tempBlock += line;
-                tempBlock += System.lineSeparator();
-            }
-            else{ // parse the current line
-                missions.add(MissionParser.parse(tempBlock));
-                tempBlock = "";
-            }
-        }
-        if(!tempBlock.isEmpty()){
-            missions.add(MissionParser.parse(tempBlock));
-        }
-    }
 
     private static void receiveCommand(String command) {
         separate();
         try { // error will only arise from this
             handleCommand(command);
             if(isChanged){ // need to writeback to history
-                writeToHistory();
+                storage.update(missions);
             }
         } catch (Exception e) {
             recoverError(e);
@@ -247,7 +202,7 @@ public class Nuke {
     // command implementation, should be no error here onwards
     private static void executeList() {
         if (!missions.isEmpty()) {
-            System.out.printf("\tYou order %d missions:%n", missions.size());
+            System.out.printf("\tWe currently have %d missions:%n", missions.size());
         } else {
             System.out.println("\tThere is no mission yet!");
         }
@@ -310,14 +265,16 @@ public class Nuke {
     }
 
     public static void main(String[] args)  {
+        storage = new Storage("data/history.txt");
+        Scanner in = new Scanner(System.in);
+
         // Retrieve history
         try{
-            retrieveHistory();
+            missions = storage.load();
         } catch(IOException e){
-            System.out.println("no file ?");
+            // handle later
         }
 
-        Scanner in = new Scanner(System.in);
         announce("greet");
         // Hand over execution for handle()
         while (isActive) {

@@ -32,3 +32,6 @@ delete 6 7
 delete 2
 delete 3
 list
+delete 3
+delete 2
+delete 1

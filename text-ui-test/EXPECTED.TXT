@@ -3,23 +3,23 @@
 	Who do you want me to nuke today?
 	---------------------------------------
 	---------------------------------------
-	There is no command yet!
+	There is no mission yet!
 	---------------------------------------
 	---------------------------------------
-	Receive a pending command: test1
+	Receive a pending task: test1
 	---------------------------------------
 	---------------------------------------
 	Give a precise timing! Nuke can destroy everything
 	---------------------------------------
 	---------------------------------------
-	You order 1 commands:
+	We currently have 1 missions:
 	1.[T][ ] test1
 	---------------------------------------
 	---------------------------------------
-	Receive a pending command: test2
+	Receive a pending task: test2
 	---------------------------------------
 	---------------------------------------
-	Sir! You access out-of-bound command
+	Sir! You access out-of-bound mission
 	---------------------------------------
 	---------------------------------------
 	Nuke needs to know operation starting time!
@@ -37,7 +37,7 @@
 	The strike precise date highlighted "/by" is lacking
 	---------------------------------------
 	---------------------------------------
-	Mark the command: [T][X] test1
+	Mark the mission: [T][X] test1
 	---------------------------------------
 	---------------------------------------
 	Nuke has to know precise duration marked by "from" and "to"
@@ -46,7 +46,7 @@
 	Nuke doesn't know what to mark
 	---------------------------------------
 	---------------------------------------
-	Mark the command: [E][X] doing that thing (from: start to: end)
+	Mark the mission: [E][X] doing that thing (from: start to: end)
 	---------------------------------------
 	---------------------------------------
 	Receive a strike order: doing deadline :), by deadline :)
@@ -55,10 +55,10 @@
 	The strike precise date highlighted "/by" is lacking
 	---------------------------------------
 	---------------------------------------
-	Nuke can not mark not-number command
+	Nuke can not mark not-number mission
 	---------------------------------------
 	---------------------------------------
-	You order 5 commands:
+	We currently have 5 missions:
 	1.[T][X] test1
 	2.[T][ ] test2
 	3.[D][ ] make something weird (by: idk)
@@ -66,7 +66,7 @@
 	5.[D][ ] doing deadline :) (by: deadline :))
 	---------------------------------------
 	---------------------------------------
-	Mark the command: [D][X] make something weird (by: idk)
+	Mark the mission: [D][X] make something weird (by: idk)
 	---------------------------------------
 	---------------------------------------
 	Nuke needs to know the strike description!
@@ -75,13 +75,13 @@
 	Nuke has to know precise duration marked by "from" and "to"
 	---------------------------------------
 	---------------------------------------
-	Unmark the command: [T][ ] test1
+	Unmark the mission: [T][ ] test1
 	---------------------------------------
 	---------------------------------------
 	Nuke is confused, unknown command
 	---------------------------------------
 	---------------------------------------
-	You order 5 commands:
+	We currently have 5 missions:
 	1.[T][ ] test1
 	2.[T][ ] test2
 	3.[D][X] make something weird (by: idk)
@@ -92,13 +92,13 @@
 	The strike precise date highlighted "/by" is lacking
 	---------------------------------------
 	---------------------------------------
-	Mark the command: [T][X] test2
+	Mark the mission: [T][X] test2
 	---------------------------------------
 	---------------------------------------
-	Mark the command: [D][X] doing deadline :) (by: deadline :))
+	Mark the mission: [D][X] doing deadline :) (by: deadline :))
 	---------------------------------------
 	---------------------------------------
-	You order 5 commands:
+	We currently have 5 missions:
 	1.[T][ ] test1
 	2.[T][X] test2
 	3.[D][X] make something weird (by: idk)
@@ -106,20 +106,29 @@
 	5.[D][X] doing deadline :) (by: deadline :))
 	---------------------------------------
 	---------------------------------------
-	Sir! You access out-of-bound command
+	Sir! You access out-of-bound mission
 	---------------------------------------
 	---------------------------------------
 	Nuke doesn't know what to delete
 	---------------------------------------
 	---------------------------------------
-	Delete old command: [T][X] test2
+	Delete old mission: [T][X] test2
 	---------------------------------------
 	---------------------------------------
-	Delete old command: [E][X] doing that thing (from: start to: end)
+	Delete old mission: [E][X] doing that thing (from: start to: end)
 	---------------------------------------
 	---------------------------------------
-	You order 3 commands:
+	We currently have 3 missions:
 	1.[T][ ] test1
 	2.[D][X] make something weird (by: idk)
 	3.[D][X] doing deadline :) (by: deadline :))
+	---------------------------------------
+	---------------------------------------
+	Delete old mission: [D][X] doing deadline :) (by: deadline :))
+	---------------------------------------
+	---------------------------------------
+	Delete old mission: [D][X] make something weird (by: idk)
+	---------------------------------------
+	---------------------------------------
+	Delete old mission: [T][ ] test1
 	---------------------------------------
