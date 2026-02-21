@@ -1,7 +1,7 @@
-package nuke.command;
+package nuke.mission;
 
-public class CommandParser {
-    public static Command parse(String block){
+public class MissionParser {
+    public static Mission parse(String block){
         // Improve later
         String[] lines = block.split(System.lineSeparator());
         String type = "";
@@ -24,13 +24,13 @@ public class CommandParser {
             else if (line.startsWith("By: "))
                 by = line.substring(4);
             else // if not follow format, handle later
-                return new Todo("not format");
+                return new Task("not format");
 
         }
         switch (type){
         case "todo":{
             if(!desc.isEmpty() && !mark.isEmpty()){
-                Todo c = new Todo(desc);
+                Task c = new Task(desc);
                 if(mark.equals("true")){ // handle wrong case later
                     c.setDone();
                 }
@@ -40,7 +40,7 @@ public class CommandParser {
         }
         case "deadline":{
             if(!desc.isEmpty() && !mark.isEmpty() && !by.isEmpty()){
-                Deadline c = new Deadline(desc, by);
+                Strike c = new Strike(desc, by);
                 if(mark.equals("true")){ // handle wrong case later
                     c.setDone();
                 }
@@ -50,7 +50,7 @@ public class CommandParser {
         }
         case "event":{
             if(!desc.isEmpty() && !mark.isEmpty() && !from.isEmpty() && !to.isEmpty()){
-                Event c = new Event(desc, from, to);
+                Operation c = new Operation(desc, from, to);
                 if(mark.equals("true")){ // handle wrong case later
                     c.setDone();
                 }
@@ -59,9 +59,9 @@ public class CommandParser {
             break;
         }
         default :{
-            return new Todo("wrong type");
+            return new Task("wrong type");
         }
         }
-        return new Todo("haha");
+        return new Task("haha");
     }
 }

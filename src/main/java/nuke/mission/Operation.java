@@ -1,11 +1,11 @@
-package nuke.command;
+package nuke.mission;
 
-public class Event extends Command {
+public class Operation extends Mission {
 
     private String from;
     private String to;
 
-    public Event(String description, String from, String to) {
+    public Operation(String description, String from, String to) {
         super(description);
         this.from = from;
         this.to = to;

@@ -1,10 +1,9 @@
 package nuke;
 
-import nuke.command.*;
+import nuke.mission.*;
 import nuke.exception.NukeException;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,7 +13,7 @@ import java.util.Scanner;
 import java.io.FileWriter;
 //
 public class Nuke {
-    private static ArrayList<Command> commands = new ArrayList<>();
+    private static ArrayList<Mission> missions = new ArrayList<>();
     private static boolean isActive = true;
     private static boolean isChanged = false;
 
@@ -40,14 +39,14 @@ public class Nuke {
         System.out.println("\t---------------------------------------");
     }
 
-    private static void addCommand(Command c) {
-        commands.add(c);
+    private static void addCommand(Mission c) {
+        missions.add(c);
     }
 
     private static String convertToHistory(){
 
         String lines = "";
-        for(Command c : commands){
+        for(Mission c : missions){
             if(!lines.isEmpty()) {
                 lines += "-----";
                 lines += System.lineSeparator();
@@ -81,12 +80,12 @@ public class Nuke {
                 tempBlock += System.lineSeparator();
             }
             else{ // parse the current line
-                commands.add(CommandParser.parse(tempBlock));
+                missions.add(MissionParser.parse(tempBlock));
                 tempBlock = "";
             }
         }
         if(!tempBlock.isEmpty()){
-            commands.add(CommandParser.parse(tempBlock));
+            missions.add(MissionParser.parse(tempBlock));
         }
     }
 
@@ -132,10 +131,10 @@ public class Nuke {
             try { // validate the index
                 index = Integer.parseInt(parsedCommand[1]);
             } catch (Exception e) {
-                throw new NukeException("Nuke can not mark not-number command");
+                throw new NukeException("Nuke can not mark not-number mission");
             }
-            if (index > commands.size() || index <= 0) {//out-of-bound
-                throw new NukeException("Sir! You access out-of-bound command");
+            if (index > missions.size() || index <= 0) {//out-of-bound
+                throw new NukeException("Sir! You access out-of-bound mission");
             }
             if (command.equals("mark")) {
                 executeMark(index);
@@ -224,10 +223,10 @@ public class Nuke {
             try { // validate the index
                 index = Integer.parseInt(parsedCommand[1]);
             } catch (Exception e) {
-                throw new NukeException("Nuke can not delete not-number command");
+                throw new NukeException("Nuke can not delete not-number mission");
             }
-            if (index > commands.size() || index <= 0) {//out-of-bound
-                throw new NukeException("Sir! You access out-of-bound command");
+            if (index > missions.size() || index <= 0) {//out-of-bound
+                throw new NukeException("Sir! You access out-of-bound mission");
             }
             executeDelete(index);
             isChanged = true;
@@ -240,46 +239,46 @@ public class Nuke {
 
     // command implementation, should be no error here onwards
     private static void executeList() {
-        if (!commands.isEmpty()) {
-            System.out.printf("\tYou order %d commands:%n", commands.size());
+        if (!missions.isEmpty()) {
+            System.out.printf("\tYou order %d missions:%n", missions.size());
         } else {
-            System.out.println("\tThere is no command yet!");
+            System.out.println("\tThere is no mission yet!");
         }
 
-        for (int i = 0; i < commands.size(); i++) {
-            System.out.printf("\t%d.%s%n", i + 1, commands.get(i).toString());
+        for (int i = 0; i < missions.size(); i++) {
+            System.out.printf("\t%d.%s%n", i + 1, missions.get(i).toString());
         }
     }
 
     private static void executeMark(int index) {
-        commands.get(index-1).setDone();
-        System.out.printf("\tMark the command: %s%n", commands.get(index-1).toString());
+        missions.get(index-1).setDone();
+        System.out.printf("\tMark the mission: %s%n", missions.get(index-1).toString());
     }
 
     private static void executeUnmark(int index) {
-        commands.get(index-1).setUndone();
-        System.out.printf("\tUnmark the command: %s%n", commands.get(index-1).toString());
+        missions.get(index-1).setUndone();
+        System.out.printf("\tUnmark the mission: %s%n", missions.get(index-1).toString());
 
     }
 
     private static void executeTodo(String description) {
-        addCommand(new Todo(description));
-        System.out.println("\tReceive a pending command: " + description);
+        addCommand(new Task(description));
+        System.out.println("\tReceive a pending task: " + description);
     }
 
     private static void executeDeadline(String description, String by) {
-        addCommand(new Deadline(description, by));
+        addCommand(new Strike(description, by));
         System.out.println("\tReceive a strike order: " + description + ", by " + by);
     }
 
     private static void executeEvent(String description, String from, String to) {
-        addCommand(new Event(description, from, to));
+        addCommand(new Operation(description, from, to));
         System.out.println("\tReceive an operation: " + description + ", from " + from + ", to " + to);
     }
 
     private static void executeDelete(int index) {
-        Command temp = commands.remove(index - 1);
-        System.out.printf("\tDelete old command: %s%n", temp.toString());
+        Mission temp = missions.remove(index - 1);
+        System.out.printf("\tDelete old mission: %s%n", temp.toString());
     }
 
     private static void recoverError(Exception e){

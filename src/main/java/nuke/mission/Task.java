@@ -1,8 +1,8 @@
-package nuke.command;
+package nuke.mission;
 
-public class Todo extends Command {
+public class Task extends Mission {
 
-    public Todo(String name) {
+    public Task(String name) {
         super(name);
     }
 

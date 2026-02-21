@@ -1,11 +1,11 @@
-package nuke.command;
+package nuke.mission;
 
-public abstract class Command {
+public abstract class Mission {
     private boolean isDone;
     private String description;
 
     // Constructor
-    public Command(String description) {
+    public Mission(String description) {
         this.isDone = false;
         this.description = description;
     }

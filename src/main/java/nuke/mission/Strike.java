@@ -1,10 +1,10 @@
-package nuke.command;
+package nuke.mission;
 
-public class Deadline extends Command {
+public class Strike extends Mission {
 
     protected String by;
 
-    public Deadline(String description, String by) {
+    public Strike(String description, String by) {
         super(description);
         this.by = by;
     }
