@@ -34,5 +34,6 @@ public abstract class Mission {
         return res;
     }
 
+    // How they are stored in the doc for history
     public abstract String toHistory();
 }

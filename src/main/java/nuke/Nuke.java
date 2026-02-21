@@ -232,6 +232,13 @@ public class Nuke {
             isChanged = true;
             return;
         }
+        case "find" -> {
+            if (parsedCommand.length != 2) { // some explicit format handling
+                throw new NukeException("Nuke doesn't know what to delete");
+            }
+            executeFind(parsedCommand[1]);
+            return;
+        }
         }
         //Not match any built-in command so reject
         throw new NukeException("Nuke is confused, unknown command");
@@ -279,6 +286,23 @@ public class Nuke {
     private static void executeDelete(int index) {
         Mission temp = missions.remove(index - 1);
         System.out.printf("\tDelete old mission: %s%n", temp.toString());
+    }
+
+    private static void executeFind(String word) {
+        int count = 0;
+        for (Mission mission : missions) {
+            if (mission.getDescription().contains(word)) {
+                count++;
+                System.out.printf("\t%d.%s%n", count, mission);
+            }
+        }
+        if (count > 0) {
+            System.out.printf("\tYou got %d match.%n", count);
+        } else {
+            System.out.println("\tThere is no mission yet!");
+        }
+
+
     }
 
     private static void recoverError(Exception e){
