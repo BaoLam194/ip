@@ -19,7 +19,9 @@ if ! javac -cp ../src/main/java/nuke -Xlint:none -d ../bin \
    ../src/main/java/nuke/exception/*.java \
    ../src/main/java/nuke/storage/*.java \
    ../src/main/java/nuke/behavior/*.java \
-   ../src/main/java/nuke/parser/*.java
+  ../src/main/java/nuke/behavior/command/*.java \
+   ../src/main/java/nuke/parser/*.java \
+
 then
     echo "********** BUILD FAILURE **********"
     exit 1

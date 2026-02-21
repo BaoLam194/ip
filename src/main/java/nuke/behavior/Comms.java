@@ -13,7 +13,6 @@ public class Comms {
         System.out.println("\tHi! Nuke's waiting for your command!");
         System.out.println("\tWho do you want me to nuke today?");
         separate();
-
     }
 
     public void bye() {
@@ -33,5 +32,9 @@ public class Comms {
 
     public String readCommand() {
         return in.nextLine();
+    }
+
+    public void recoverError(Exception e) {
+        transmitOrder(String.format("\t" + e.getMessage()));
     }
 }
