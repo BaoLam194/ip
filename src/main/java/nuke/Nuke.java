@@ -1,5 +1,6 @@
 package nuke;
 
+import nuke.behavior.Comms;
 import nuke.mission.*;
 import nuke.exception.NukeException;
 import nuke.storage.Storage;
@@ -13,7 +14,8 @@ import java.io.FileWriter;
 
 public class Nuke {
     private static ArrayList<Mission> missions = new ArrayList<>();
-    private static Storage storage;
+    private static Storage militarySecret;
+    private static Comms signalOfficer;
     private static boolean isActive = true;
     private static boolean isChanged = false;
 
@@ -21,41 +23,22 @@ public class Nuke {
         isActive = false;
     }
 
-    private static void announce(String mode) {
-        if (mode.equals("greet")) {
-            System.out.println("\t===============================");
-            System.out.println("\tHi! Nuke's waiting for your command!");
-            System.out.println("\tWho do you want me to nuke today?");
-            separate();
-        } else {// default to exit
-            System.out.println("\tKaboommm!");
-            System.out.println("\tI have destroyed our current session!");
-            System.out.println("\tSee you later!");
-            System.out.println("\t=======================================");
-        }
-    }
-
-    private static void separate() {
-        System.out.println("\t---------------------------------------");
-    }
-
     private static void addCommand(Mission c) {
         missions.add(c);
     }
 
-
     private static void receiveCommand(String command) {
-        separate();
+        signalOfficer.separate();
         try { // error will only arise from this
             handleCommand(command);
             if(isChanged){ // need to writeback to history
-                storage.update(missions);
+                militarySecret.update(missions);
             }
         } catch (Exception e) {
             recoverError(e);
         }
         if (isActive) { // stop separate if it has to be terminated
-            separate();
+            signalOfficer.separate();
         }
 
     }
@@ -69,7 +52,7 @@ public class Nuke {
         switch (command) {
         case "bye" -> {
             // Handle bye directly
-            announce("exit");
+            signalOfficer.bye();
             stopNuke();
             return;
 
@@ -202,45 +185,45 @@ public class Nuke {
     // command implementation, should be no error here onwards
     private static void executeList() {
         if (!missions.isEmpty()) {
-            System.out.printf("\tWe currently have %d missions:%n", missions.size());
+            signalOfficer.transmit(String.format("\tWe currently have %d missions:%n", missions.size()));
         } else {
-            System.out.println("\tThere is no mission yet!");
+            signalOfficer.transmit(String.format("\tThere is no mission yet!%n"));
         }
 
         for (int i = 0; i < missions.size(); i++) {
-            System.out.printf("\t%d.%s%n", i + 1, missions.get(i).toString());
+            signalOfficer.transmit(String.format("\t%d.%s%n", i + 1, missions.get(i).toString()));
         }
     }
 
     private static void executeMark(int index) {
         missions.get(index-1).setDone();
-        System.out.printf("\tMark the mission: %s%n", missions.get(index-1).toString());
+        signalOfficer.transmit(String.format("\tMark the mission: %s%n", missions.get(index-1).toString()));
     }
 
     private static void executeUnmark(int index) {
         missions.get(index-1).setUndone();
-        System.out.printf("\tUnmark the mission: %s%n", missions.get(index-1).toString());
+        signalOfficer.transmit(String.format("\tUnmark the mission: %s%n", missions.get(index-1).toString()));
 
     }
 
     private static void executeTodo(String description) {
         addCommand(new Task(description));
-        System.out.println("\tReceive a pending task: " + description);
+        signalOfficer.transmit(String.format("\tReceive a pending task: " + description +"%n"));
     }
 
     private static void executeDeadline(String description, String by) {
         addCommand(new Strike(description, by));
-        System.out.println("\tReceive a strike order: " + description + ", by " + by);
+        signalOfficer.transmit(String.format("\tReceive a strike order: " + description + ", by " + by+"%n"));
     }
 
     private static void executeEvent(String description, String from, String to) {
         addCommand(new Operation(description, from, to));
-        System.out.println("\tReceive an operation: " + description + ", from " + from + ", to " + to);
+        signalOfficer.transmit(String.format("\tReceive an operation: " + description + ", from " + from + ", to " + to +"%n"));
     }
 
     private static void executeDelete(int index) {
         Mission temp = missions.remove(index - 1);
-        System.out.printf("\tDelete old mission: %s%n", temp.toString());
+        signalOfficer.transmit(String.format("\tDelete old mission: %s%n", temp.toString()));
     }
 
     private static void executeFind(String word) {
@@ -248,34 +231,36 @@ public class Nuke {
         for (Mission mission : missions) {
             if (mission.getDescription().contains(word)) {
                 count++;
-                System.out.printf("\t%d.%s%n", count, mission);
+                signalOfficer.transmit(String.format("\t%d.%s%n", count, mission));
             }
         }
         if (count > 0) {
-            System.out.printf("\tYou got %d match.%n", count);
+            signalOfficer.transmit(String.format("\tYou got %d match.%n", count));
+            
         } else {
-            System.out.println("\tThere is no mission yet!");
+            signalOfficer.transmit(String.format("\tThere is no mission yet!%n"));
         }
 
 
     }
 
     private static void recoverError(Exception e){
-        System.out.println("\t" + e.getMessage());
+        signalOfficer.transmit(String.format("\t" + e.getMessage() +"%n"));
     }
 
     public static void main(String[] args)  {
-        storage = new Storage("data/history.txt");
+        militarySecret = new Storage("data/history.txt");
+        signalOfficer = new Comms();
         Scanner in = new Scanner(System.in);
 
         // Retrieve history
         try{
-            missions = storage.load();
+            missions = militarySecret.load();
         } catch(IOException e){
             // handle later
         }
 
-        announce("greet");
+        signalOfficer.greet();
         // Hand over execution for handle()
         while (isActive) {
             String command = in.nextLine();
