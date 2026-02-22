@@ -1,13 +1,38 @@
 package nuke.parser;
 
+import nuke.exception.NukeException;
 import nuke.mission.Mission;
 import nuke.mission.Operation;
 import nuke.mission.Strike;
 import nuke.mission.Task;
 
+/**
+ * Parses stored mission history blocks into {@link Mission} objects.
+ */
 public class MissionParser {
-    public static Mission parse(String block) {
-        // Improve later
+    /**
+     * Converts a formatted history block into a {@link Mission} object.
+     *
+     * <p>The method extracts mission attributes from labeled lines:
+     * <ul>
+     *     <li>Type: mission category (todo, deadline, event)</li>
+     *     <li>Desc: mission description</li>
+     *     <li>Mark: completion status (true/false)</li>
+     *     <li>From/To/By: time-related attributes (if applicable)</li>
+     * </ul>
+     *
+     * <p>Depending on the "Type" value, the method constructs and returns:
+     * <ul>
+     *     <li>{@link Task} for "todo"</li>
+     *     <li>{@link Strike} for "deadline"</li>
+     *     <li>{@link Operation} for "event"</li>
+     * </ul>
+     *
+     * @param block The formatted mission history block as a string.
+     * @return A reconstructed {@link Mission} object.
+     * @throws NukeException If the block format is invalid or missing required fields.
+     */
+    public static Mission parse(String block) throws NukeException {
         String[] lines = block.split(System.lineSeparator());
         String type = "";
         String desc = "";
@@ -28,8 +53,8 @@ public class MissionParser {
                 to = line.substring(4);
             } else if (line.startsWith("By: ")) {
                 by = line.substring(4);
-            } else { // if not follow format, handle later
-                return new Task("not format");
+            } else {
+                throw new NukeException("Null");
             }
 
 
@@ -38,7 +63,7 @@ public class MissionParser {
         case "todo": {
             if (!desc.isEmpty() && !mark.isEmpty()) {
                 Task c = new Task(desc);
-                if (mark.equals("true")) { // handle wrong case later
+                if (mark.equals("true")) { // if it does not match, ignore
                     c.setDone();
                 }
                 return c;
@@ -48,7 +73,7 @@ public class MissionParser {
         case "deadline": {
             if (!desc.isEmpty() && !mark.isEmpty() && !by.isEmpty()) {
                 Strike c = new Strike(desc, by);
-                if (mark.equals("true")) { // handle wrong case later
+                if (mark.equals("true")) { // if it does not match, ignore
                     c.setDone();
                 }
                 return c;
@@ -58,7 +83,7 @@ public class MissionParser {
         case "event": {
             if (!desc.isEmpty() && !mark.isEmpty() && !from.isEmpty() && !to.isEmpty()) {
                 Operation c = new Operation(desc, from, to);
-                if (mark.equals("true")) { // handle wrong case later
+                if (mark.equals("true")) { // if it does not match, ignore
                     c.setDone();
                 }
                 return c;
@@ -66,9 +91,9 @@ public class MissionParser {
             break;
         }
         default: {
-            return new Task("wrong type");
+            throw new NukeException("Null");
         }
         }
-        return new Task("haha");
+        throw new NukeException("Null");
     }
 }
