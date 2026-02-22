@@ -6,9 +6,14 @@ import nuke.mission.Task;
 import nuke.storage.Storage;
 
 import java.io.IOException;
-
+/**
+ * Represents a list command for Nuke chatbot
+ */
 public class ListCommand extends Command{
 
+    /**
+     * Print all missions in current mission lists
+     */
     @Override
     public void execute(MissionList missions, Comms ui, Storage storage) throws IOException {
         if (!missions.isEmpty()) {

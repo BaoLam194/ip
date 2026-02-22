@@ -2,6 +2,9 @@ package nuke.behavior;
 
 import java.util.Scanner;
 
+/**
+ *
+ */
 public class Comms {
     private Scanner in;
     public Comms() {

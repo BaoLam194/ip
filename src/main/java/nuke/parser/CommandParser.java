@@ -7,8 +7,17 @@ import nuke.mission.MissionList;
 import java.io.IOException;
 import java.util.Arrays;
 
+/**
+ * Convert the user command line into the {@link Command} object to being executed
+ */
 public class CommandParser {
-    // Parse into correct Command class, also check if there is error or not.
+    /**
+     * Take in the user input and the current mission list record to convert into Nuke-related command
+     * @param missions MissionList,
+     * @param commandLine String, the user-input string
+     * @return an {@link Command} object that contains all information about the command user requires.
+     * @throws NukeException will be thrown if the format of the command line is wrong
+     */
     public static Command parse(MissionList missions, String commandLine) throws NukeException {
         // reset the routine
         String[] parsedCommand = commandLine.split(" ");

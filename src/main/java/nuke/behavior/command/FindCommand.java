@@ -6,14 +6,23 @@ import nuke.mission.MissionList;
 import nuke.storage.Storage;
 
 import java.io.IOException;
-
+/**
+ * Represents a find command for Nuke chatbot
+ */
 public class FindCommand extends Command{
     private final String word;
 
+    /**
+     *
+     * @param word the substring that find command needs to match
+     */
     public FindCommand(String word) {
         this.word = word;
     }
 
+    /**
+     * Return all mission that has substring {@code word} variable of this command.
+     */
     @Override
     public void execute(MissionList missions, Comms ui, Storage storage) throws IOException {
         int count = 0;
