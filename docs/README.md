@@ -46,7 +46,7 @@ We currently have 5 missions:
 5.[D][ ] Penetrate city V (by: next month)
 ```
 
-## List Mission
+## Exit Nuke
 
 This command can be used to exit.
 
